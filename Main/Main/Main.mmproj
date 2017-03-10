@@ -3,8 +3,8 @@
     <files>
         <file name="Main.cpp" open="yes"/>
         <file name="mariamole_auto_generated.h" open="no"/>
-        <file name="Head.h" open="no"/>
-        <file name="IButton.h" open="no"/>
+        <file name="Head.h" open="yes"/>
+        <file name="IButton.h" open="yes"/>
     </files>
     <externals/>
 </mm_project>
