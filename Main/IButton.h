@@ -4,8 +4,8 @@ class IButton {
 
   private:
 
-    const byte IBUTTON_PIN = 11;
-    OneWire ibtn{IBUTTON_PIN};
+    byte IBUTTON_PIN;;
+    OneWire ibtn;
 
   private:
 
@@ -35,6 +35,10 @@ class IButton {
 
   public:
 
+  IButton(int iBtnPin) : ibtn(iBtnPin) {
+    IBUTTON_PIN = iBtnPin;
+  }
+  
     /*
      * 
     */
