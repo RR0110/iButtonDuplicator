@@ -4,15 +4,18 @@ class IButton {
 
   private:
 
-    byte IBUTTON_PIN;;
+    int IBUTTON_PIN;;
     OneWire ibtn;
+    byte lastReadCode[8] = {
+      0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
+    };
 
   private:
 
     /*
-     * 
+
     */
-    void writeByteInKey(byte data) {
+    void writeByteInIButton(byte data) {
       for (int data_bit = 0; data_bit < 8; data_bit++) {
         if (data & 1) {
           digitalWrite(IBUTTON_PIN, LOW);
@@ -35,14 +38,20 @@ class IButton {
 
   public:
 
-  IButton(int iBtnPin) : ibtn(iBtnPin) {
-    IBUTTON_PIN = iBtnPin;
-  }
-  
+    IButton(int iBtnPin) : ibtn(iBtnPin) {
+      IBUTTON_PIN = iBtnPin;
+    }
+
+    void getLastReadCode(byte data[]) {
+      for(int i = 0; i < 8; i++) {
+        data[i] = lastReadCode[i];
+      }
+    }
+    
     /*
-     * 
+
     */
-    void writeCodeInIButton(byte code[]) {
+    void writeIbuttonCode(byte code[]) {
       ibtn.skip();
       ibtn.reset();
       ibtn.write(0x33);
@@ -61,8 +70,8 @@ class IButton {
       ibtn.skip();
       ibtn.reset();
       ibtn.write(0xD5);
-      for (byte i = 0; i < 8; i++) {
-        writeByteInKey(code[i]);
+      for (int i = 0; i < 8; i++) {
+        writeByteInIButton(code[i]);
       }
       ibtn.reset();
       // send 0xD1
@@ -76,6 +85,16 @@ class IButton {
       delay(10);
     }
 
+    /*
 
+    */
+    boolean isIButtonSearch() {
+      if (ibtn.search(lastReadCode)) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
 };
 

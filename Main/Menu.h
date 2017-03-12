@@ -2,25 +2,25 @@ class Menu {
 
   private:
 
-    byte BUTTON_PIN;
-    byte verticalLevel = 0;
-    byte horizontalLevel = 0;
-    byte verticalLevelMax = 2;
-    byte horizontalLevelMax = 3;
+    int BUTTON_PIN;
+    int verticalLevel = 0;
+    int horizontalLevel = 0;
+    int verticalLevelMax = 2;
+    int horizontalLevelMax = 3;
 
   public:
 
-    Menu(byte btnPin) {
+    Menu(int btnPin) {
       BUTTON_PIN = btnPin;
 
       pinMode(BUTTON_PIN, INPUT_PULLUP);
     }
 
-    byte getVerticalLevel() {
+    int getVerticalLevel() {
       return verticalLevel;
     }
 
-    byte getHorizontalLevel () {
+    int getHorizontalLevel () {
       return horizontalLevel;
     }
 
@@ -29,7 +29,7 @@ class Menu {
     */
     void clickListenerAndHandler() {
       static boolean buttonLock = false;
-      byte typeOfPress;
+      int typeOfPress;
       if (digitalRead(BUTTON_PIN) == LOW && buttonLock == false) {
         unsigned long buttonActiveTime = millis();
         while (digitalRead(BUTTON_PIN) == LOW) {
