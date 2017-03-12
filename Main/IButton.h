@@ -42,16 +42,10 @@ class IButton {
       IBUTTON_PIN = iBtnPin;
     }
 
-    void getLastReadCode(byte data[]) {
-      for(int i = 0; i < 8; i++) {
-        data[i] = lastReadCode[i];
-      }
-    }
-    
     /*
 
     */
-    void writeIbuttonCode(byte code[]) {
+    void writeCode() {
       ibtn.skip();
       ibtn.reset();
       ibtn.write(0x33);
@@ -71,7 +65,7 @@ class IButton {
       ibtn.reset();
       ibtn.write(0xD5);
       for (int i = 0; i < 8; i++) {
-        writeByteInIButton(code[i]);
+        writeByteInIButton(lastReadCode[i]);
       }
       ibtn.reset();
       // send 0xD1
@@ -89,12 +83,19 @@ class IButton {
 
     */
     boolean isIButtonSearch() {
-      if (ibtn.search(lastReadCode)) {
+      byte data[8];
+      if (ibtn.search(data)) {
+        ibtn.reset_search();
         return true;
       }
       else {
         return false;
       }
+    }
+
+    void readCode() {
+      ibtn.search(lastReadCode);
+      ibtn.reset_search();
     }
 };
 

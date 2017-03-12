@@ -54,16 +54,18 @@ class RGBLed {
     */
     void ledBlink(int delayTime, int clr) {
       static unsigned long blinkTimer = millis();
-      static boolean ledState = 0;
-      if (millis() - blinkTimer > (long)delayTime) {
-        if (ledState == 0) {
-          setColor(-1);
+      static boolean ledState = false;
+      if(delayTime == 0) {
+        setColor(-1);
+      }
+      else if (millis() - blinkTimer > delayTime) {
+        if (ledState == false) {
           setColor(clr);
-          ledState = 1;
+          ledState = true;
         }
-        else if (ledState == 1) {
+        else if (ledState == true) {
           setColor(-1);
-          ledState = 0;
+          ledState = false;
         }
         blinkTimer = millis();
       }
