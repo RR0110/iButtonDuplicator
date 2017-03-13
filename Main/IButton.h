@@ -1,4 +1,5 @@
 #include <OneWire.h>
+#include <EEPROM.h>
 
 class IButton {
 
@@ -6,9 +7,15 @@ class IButton {
 
     int IBUTTON_PIN;;
     OneWire ibtn;
-    byte lastReadCode[8] = {
+    byte lastReadCodeOfKey[8] = {
       0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
     };
+    byte lastReadCodeOfEEPROM[8] = {
+      0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
+    };
+    //byte defaultCode1[8] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+    //byte defaultCode2[8] = {0xDD, 0xDD, 0xDD, 0xDD, 0xDD, 0xDD, 0xDD, 0xDD};
+    //byte defaultCode3[8] = {0xEE, 0xEE, 0xEE, 0xEE, 0xEE, 0xEE, 0xEE, 0xEE};
 
   private:
 
@@ -45,7 +52,7 @@ class IButton {
     /*
 
     */
-    void writeCode() {
+    void writeCodeInIButton() {
       ibtn.skip();
       ibtn.reset();
       ibtn.write(0x33);
@@ -65,7 +72,7 @@ class IButton {
       ibtn.reset();
       ibtn.write(0xD5);
       for (int i = 0; i < 8; i++) {
-        writeByteInIButton(lastReadCode[i]);
+        writeByteInIButton(lastReadCodeOfKey[i]);
       }
       ibtn.reset();
       // send 0xD1
@@ -77,6 +84,53 @@ class IButton {
       pinMode(IBUTTON_PIN, INPUT);
       digitalWrite(IBUTTON_PIN, HIGH);
       delay(10);
+    }
+
+    void writeCodeInIButton(int cell) {
+      readCodeOfEEPROM(cell);
+      ibtn.skip();
+      ibtn.reset();
+      ibtn.write(0x33);
+      // send reset
+      ibtn.skip();
+      ibtn.reset();
+      // send 0xD1
+      ibtn.write(0xD1);
+      // send logical 0
+      digitalWrite(IBUTTON_PIN, LOW);
+      pinMode(IBUTTON_PIN, OUTPUT);
+      delayMicroseconds(60);
+      pinMode(IBUTTON_PIN, INPUT);
+      digitalWrite(IBUTTON_PIN, HIGH);
+      delay(10);
+      ibtn.skip();
+      ibtn.reset();
+      ibtn.write(0xD5);
+      for (int i = 0; i < 8; i++) {
+        writeByteInIButton(lastReadCodeOfEEPROM[i]);
+      }
+      ibtn.reset();
+      // send 0xD1
+      ibtn.write(0xD1);
+      //send logical 1
+      digitalWrite(IBUTTON_PIN, LOW);
+      pinMode(IBUTTON_PIN, OUTPUT);
+      delayMicroseconds(10);
+      pinMode(IBUTTON_PIN, INPUT);
+      digitalWrite(IBUTTON_PIN, HIGH);
+      delay(10);
+    }
+
+    void writeCodeInEEPROM(int cell) {
+      for (int i = 0; i < 8; i++) {
+        EEPROM.update((cell * 8) + i, lastReadCodeOfKey[i]);
+      }
+    }
+
+    void readCodeOfEEPROM(int cell) {
+      for (int i = 0; i < 8; i++) {
+        lastReadCodeOfEEPROM[i] = EEPROM.read((cell * 8) + i);
+      }
     }
 
     /*
@@ -94,7 +148,7 @@ class IButton {
     }
 
     void readCode() {
-      ibtn.search(lastReadCode);
+      ibtn.search(lastReadCodeOfKey);
       ibtn.reset_search();
     }
 };

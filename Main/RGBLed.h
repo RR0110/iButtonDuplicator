@@ -22,10 +22,15 @@ class RGBLed {
 
     */
     void setColor(int clr) {
-      if (clr == -2) {
-        analogWrite(RED_PIN, 100);
-        analogWrite(GREEN_PIN, 100);
-        analogWrite(BLUE_PIN, 100);
+      if (clr == -3) {
+        analogWrite(RED_PIN, 30);
+        analogWrite(GREEN_PIN, 30);
+        analogWrite(BLUE_PIN, 30);
+      }
+      else if (clr == -2) {
+        analogWrite(RED_PIN, 255);
+        analogWrite(GREEN_PIN, 0);
+        analogWrite(BLUE_PIN, 255);
       }
       else if (clr == -1) {
         analogWrite(RED_PIN, 0);
@@ -55,7 +60,7 @@ class RGBLed {
     void ledBlink(int delayTime, int clr) {
       static unsigned long blinkTimer = millis();
       static boolean ledState = false;
-      if(delayTime == 0) {
+      if (delayTime == 0) {
         setColor(-1);
       }
       else if (millis() - blinkTimer > delayTime) {
