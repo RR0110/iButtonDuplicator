@@ -5,7 +5,7 @@ class IButton {
 
   private:
 
-    int IBUTTON_PIN;;
+    int IBUTTON_PIN;
     OneWire ibtn;
     byte lastReadCodeOfKey[8] = {
       0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF

@@ -41,7 +41,7 @@ void loop() {
         led.setColor(-2);
         if (ibutton.isIButtonSearch() == true) {
           delay(400);
-          ibutton.writeCodeInIButton(menu.getHorizontalLevel());
+          ibutton.writeCodeInIButton();
           delay(100);
           menu.resetLongPushFlag();
         }
