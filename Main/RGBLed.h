@@ -37,7 +37,7 @@ class RGBLed {
         analogWrite(GREEN_PIN, 0);
         analogWrite(BLUE_PIN, 0);
       }
-      else if (clr == 0 || clr == 3  || clr == 6  || clr == 9  || clr == 12  || clr == 16  || clr == 18) {
+      else if (clr == 0 || clr == 3  || clr == 6  || clr == 9  || clr == 12  || clr == 15  || clr == 17) {
         analogWrite(RED_PIN, 255);
         analogWrite(GREEN_PIN, 0);
         analogWrite(BLUE_PIN, 0);
@@ -47,7 +47,7 @@ class RGBLed {
         analogWrite(GREEN_PIN, 255);
         analogWrite(BLUE_PIN, 0);
       }
-      else if (clr == 2  || clr == 5  || clr == 8  || clr == 11  || clr == 14  || clr == 17) {
+      else if (clr == 2  || clr == 5  || clr == 8  || clr == 11  || clr == 14) {
         analogWrite(RED_PIN, 0);
         analogWrite(GREEN_PIN, 0);
         analogWrite(BLUE_PIN, 255);

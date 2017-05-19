@@ -23,8 +23,7 @@ void loop() {
   if (menu.getVerticalLevel() == 0) {
     menu.setHorizontalNextBlock();
     if (menu.getLongPushFlag() != true) {
-      if (ibutton.isIButtonSearch() == true) {
-        ibutton.readCode();
+      if (ibutton.isIButtonSearch(1) == true) {
         led.ledBlink(100, -3);
         delay(100);
       }

@@ -73,6 +73,7 @@ class IButton {
       ibtn.write(0xD5);
       for (int i = 0; i < 8; i++) {
         writeByteInIButton(lastReadCodeOfKey[i]);
+        delay(1);
       }
       ibtn.reset();
       // send 0xD1
@@ -108,6 +109,7 @@ class IButton {
       ibtn.write(0xD5);
       for (int i = 0; i < 8; i++) {
         writeByteInIButton(lastReadCodeOfEEPROM[i]);
+        delay(1);
       }
       ibtn.reset();
       // send 0xD1
@@ -136,20 +138,31 @@ class IButton {
     /*
 
     */
-    boolean isIButtonSearch() {
-      byte data[8];
-      if (ibtn.search(data)) {
-        ibtn.reset_search();
-        return true;
+    boolean isIButtonSearch(int flag = 0) {
+      if (flag == 1)
+      {
+        if (ibtn.search(lastReadCodeOfKey))
+        {
+          ibtn.reset_search();
+          return true;
+        }
+        else
+        {
+          return false;
+        }
       }
-      else {
-        return false;
+      else
+      {
+        byte data[8];
+        if (ibtn.search(data)) {
+          ibtn.reset_search();
+          return true;
+        }
+        else
+        {
+          return false;
+        }
       }
-    }
-
-    void readCode() {
-      ibtn.search(lastReadCodeOfKey);
-      ibtn.reset_search();
     }
 };
 
