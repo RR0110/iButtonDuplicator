@@ -6,7 +6,7 @@ class Menu {
     int verticalLevel = 0;
     int horizontalLevel = 0;
     int verticalLevelMax = 2;
-    int horizontalLevelMax = 3;
+    int horizontalLevelMax = 18;
     boolean longPushFlag = false;
     boolean horizontalNextBlock = false;
 
